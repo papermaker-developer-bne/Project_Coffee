@@ -28,17 +28,6 @@ namespace Coffee.API.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public class OrdersProvider
-        {
-            public static List<orders> GetList(string rootPath)
-            {
-                JsonHelper jh = new JsonHelper(rootPath + "/Data/orders.json");
-                List<orders> list = jh.Read<List<orders>>("");
-                return list;
-            }
-
-        }
-
         [HttpGet]
         public IActionResult List()
         {
