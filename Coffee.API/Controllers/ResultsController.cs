@@ -72,7 +72,7 @@ namespace Coffee.API.Controllers
             }
             return Ok(new { msg = "No data." });
         }
-
     }
+
 }
 

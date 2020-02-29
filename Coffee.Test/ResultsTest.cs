@@ -1,5 +1,4 @@
-﻿using Coffee.API;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
@@ -13,9 +12,9 @@ using Xunit.Abstractions;
 
 namespace Coffee.API.XUnitTest
 {
-    public class DrinkTest
+    public class ExpectedTest
     {
-        public DrinkTest(ITestOutputHelper outputHelper)
+        public ExpectedTest(ITestOutputHelper outputHelper)
         {
             var server = new TestServer(WebHost.CreateDefaultBuilder()
                 .UseStartup<Startup>());
@@ -27,14 +26,15 @@ namespace Coffee.API.XUnitTest
         public ITestOutputHelper Output { get; }
 
         [Fact]
-        public async Task DrinkList_Ok()
+        public async Task ExpectedAll_Ok()
         {
-            // Act
-            var response = await Client.GetAsync($"/api/Drink/List");
+
+            var response = await Client.GetAsync($"/api/Results/All");
+
             // Output
             var responseTest = await response.Content.ReadAsStringAsync();
             Output.WriteLine(responseTest);
-            // Assert
+
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
