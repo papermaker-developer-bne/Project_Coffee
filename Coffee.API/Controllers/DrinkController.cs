@@ -20,16 +20,6 @@ namespace Coffee.API.Controllers
     [Route("api/[controller]/[action]")]
     public class DrinkController : ControllerBase
     {
-        public class DrinkProvider
-        {
-            public static List<drink> GetList(string rootPath)
-            {
-                JsonHelper jh = new JsonHelper(rootPath + "/Data/prices.json");
-                List<drink> list = jh.Read<List<drink>>("");
-                return list;
-            }
-
-        }
 
         private readonly IHostEnvironment _hostingEnvironment;
         public DrinkController(IHostEnvironment hostingEnvironment)
