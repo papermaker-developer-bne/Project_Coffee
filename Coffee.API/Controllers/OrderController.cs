@@ -25,6 +25,10 @@ namespace Coffee.API.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        /// <summary>
+        /// All data from orders.json
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult List()
         {
@@ -60,6 +64,30 @@ namespace Coffee.API.Controllers
                     obj.Add(new { user = item.Key, amount = sum, list = item.Value });
                 }
                 return Ok(obj);
+            }
+            return Ok(new { msg = "No data." });
+        }
+
+
+        /// <summary>
+        /// Provided with the user name, then return orders with drink details and total cost for this user 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Info(string name)
+        {
+            Dictionary<string, List<object>> dic = OrdersProvider.GetAll(_hostingEnvironment.ContentRootPath);
+            if (dic != null && !string.IsNullOrWhiteSpace(name) && dic.ContainsKey(name) && dic[name] != null && dic[name].Count > 0)
+            {
+                double sum = 0;
+                foreach (var one in dic[name])
+                {
+                    PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(one);
+                    PropertyDescriptor pdID = pdc.Find("prices", true);
+                    sum += (pdID.GetValue(one) == null ? 0 : Convert.ToDouble(pdID.GetValue(one)));
+                }
+                return Ok(new { user = name, amount = sum, list = dic[name] });
             }
             return Ok(new { msg = "No data." });
         }
