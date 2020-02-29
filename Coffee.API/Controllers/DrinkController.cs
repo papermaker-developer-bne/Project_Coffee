@@ -17,7 +17,7 @@ using Coffee.API.Processor;
 namespace Coffee.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]/[action]")]
     public class DrinkController : ControllerBase
     {
         public class DrinkProvider

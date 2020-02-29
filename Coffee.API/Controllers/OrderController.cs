@@ -4,18 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Coffee.Core.Entities;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json;
-using System.ComponentModel;
-using Coffee.API.Processor;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using System.IO;
 using Coffee.API.Models;
+using Coffee.API.Processor;
 
 namespace Coffee.API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]/[action]")]
     public class OrderController : ControllerBase
     {
+
 
         private readonly IHostEnvironment _hostingEnvironment;
         public OrderController(IHostEnvironment hostingEnvironment)
@@ -31,14 +36,10 @@ namespace Coffee.API.Controllers
                 List<orders> list = jh.Read<List<orders>>("");
                 return list;
             }
+
         }
 
-
-            /// <summary>
-            /// Orders from all users
-            /// </summary>
-            /// <returns></returns>
-            [HttpGet]
+        [HttpGet]
         public IActionResult List()
         {
             List<orders> list = OrdersProvider.GetList(_hostingEnvironment.ContentRootPath);
@@ -48,6 +49,5 @@ namespace Coffee.API.Controllers
             }
             return Ok(new { msg = "No data." });
         }
-
     }
 }
