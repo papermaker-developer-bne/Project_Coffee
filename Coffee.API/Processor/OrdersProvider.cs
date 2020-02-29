@@ -15,6 +15,28 @@ namespace Coffee.API.Processor
             return list;
         }
 
+        public static Dictionary<string, List<object>> GetAll(string rootPath)
+        {
+            Dictionary<string, List<object>> dic = new Dictionary<string, List<object>>();
+
+            List<orders> list = GetList(rootPath);
+            if (list != null && list.Count > 0)
+            {
+                foreach (orders o in list)
+                {
+                    if (dic.ContainsKey(o.user))
+                    {
+                        dic[o.user].Add(new { drink = o.drink, size = o.size, prices = DrinkProvider.GetPrices(rootPath, o.drink, o.size) });
+                    }
+                    else
+                    {
+                        dic.Add(o.user, new List<object>() { new { drink = o.drink, size = o.size, prices = DrinkProvider.GetPrices(rootPath, o.drink, o.size) } });
+                    }
+                }
+            }
+
+            return dic;
+        }
     }
 
 
