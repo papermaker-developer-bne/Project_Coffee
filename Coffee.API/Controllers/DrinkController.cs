@@ -22,7 +22,6 @@ namespace Coffee.API.Controllers
     {
         public class DrinkProvider
         {
-
             public static List<drink> GetList(string rootPath)
             {
                 JsonHelper jh = new JsonHelper(rootPath + "/Data/prices.json");
@@ -43,7 +42,11 @@ namespace Coffee.API.Controllers
         public IActionResult List()
         {
             List<drink> list = DrinkProvider.GetList(_hostingEnvironment.ContentRootPath);
-            return Ok(list);
+            if (list != null)
+            {
+                return Ok(list);
+            }
+            return Ok(new { msg = "No data." });
         }
     }
 }
